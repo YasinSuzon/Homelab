@@ -1,5 +1,3 @@
-# Homelab
-
 ![Description of your Glance Dashboard](Glance-Dashboard.png)
 
 
