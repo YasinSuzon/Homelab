@@ -1,0 +1,6 @@
+# Ignore API/secret files
+secrets.yaml
+dashboard-tokens.yaml 
+
+# Ignore system files (optional, but good practice)
+.DS_Store
