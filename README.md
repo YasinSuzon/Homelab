@@ -1,4 +1,6 @@
+My Current dashboard & most of the apps I'm using right now.
+
 ![Description of your Glance Dashboard](Glance/Glance-Dashboard.png)
 
 
-A collection of configuration files of the self-hosted apps I'm using.
+Download the files/ codes from here, edit & add your API keys. Enjoy.
