@@ -1,0 +1,63 @@
+name: glance
+services:
+  glance:
+    cpu_shares: 90
+    command: []
+    container_name: glance
+    deploy:
+      resources:
+        limits:
+          memory: 23520M
+    environment:
+      - MY_SECRET_TOKEN=123456
+    env_file:
+      - /DATA/AppData/glance/.env
+    hostname: glance
+    image: glanceapp/glance:latest
+    labels:
+      icon: https://avatars.githubusercontent.com/u/159397742?s=48&v=4
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "4000"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/glance/config
+        target: /app/config
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /DATA/AppData/glance/assets
+        target: /app/assets
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+networks:
+  default:
+    name: glance_default
+x-casaos:
+  author: self
+  category: self
+  hostname: ""
+  icon: https://avatars.githubusercontent.com/u/159397742?s=48&v=4
+  index: /
+  is_uncontrolled: false
+  port_map: "4000"
+  scheme: http
+  title:
+    custom: Glance
