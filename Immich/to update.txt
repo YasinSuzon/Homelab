@@ -1,3 +1,5 @@
+Docker CLI commands to update immich:
+
 cd H:\Docker\immich (ur immich install location)
 
 echo YOUR_TOKEN | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin (to login to github, u will need to create a PAT from github first. Scope must include: read.packages)
@@ -5,4 +7,5 @@ echo YOUR_TOKEN | docker login ghcr.io -u YOUR_GITHUB_USERNAME --password-stdin 
 docker compose pull (will download the latest image)
 docker compose up -d (will start the new image after downloading)
 docker image prune (will delete the old unused image)
+
 
