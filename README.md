@@ -1,4 +1,4 @@
-My Current dashboard & most of the apps I'm using right now.
+My Current dashboard & most for the apps I'm using right now.
 
 ![Description of your Glance Dashboard](Glance/Glance-Dashboard.png)
 
