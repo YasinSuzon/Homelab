@@ -3,7 +3,7 @@ services:
     image: ghcr.io/dockpeek/dockpeek:latest
     container_name: dockpeek
     environment:
-      - SECRET_KEY=3b854764-1850-4c6b-9c14-793eb89eb9d6 # Required: Set a secure secret key
+      - SECRET_KEY=your_secure_secret_key # Required: Set a secure secret key
       - USERNAME=admin # username
       - PASSWORD=password # password
     ports:
