@@ -14,5 +14,5 @@ Lets say you want to deploy Jellyfin-
 4. Give location for your movies/ tv series
 5. Save the file
 6. On docker CLI: cd "jellyfin-folder-location"
-                  docker compose up -d
-7. Now you can access Jellyfin on localhost:8096
+7. Then use this command: docker compose up -d
+8. Now you can access Jellyfin on localhost:8096
