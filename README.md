@@ -5,7 +5,7 @@ My Current dashboard & most for the apps I'm using right now.
 
 Download the files/ codes from here, edit & add your API keys. Enjoy.
 
-Here is how to use these dockerr-compose files:
+Here is how to use these docker-compose files:
 Lets say you want to deploy Jellyfin-
 
 1. Create a Jellyfin folder on your computer
