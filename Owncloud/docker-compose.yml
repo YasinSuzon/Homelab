@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  owncloud:
+    image: owncloud/server:10.16.0
+    container_name: owncloud
+    restart: always
+    ports:
+      - 8211:8080
+    environment:
+      - OWNCLOUD_ADMIN_USERNAME=admin
+      - OWNCLOUD_ADMIN_PASSWORD=changeme
+      - OWNCLOUD_DB_TYPE=sqlite
+      - OWNCLOUD_DB_NAME=owncloud
+      - OWNCLOUD_DB_USERNAME=admin
+      - OWNCLOUD_DB_PASSWORD=changeme
+      - OWNCLOUD_DB_HOST=localhost
+      - OWNCLOUD_DOMAIN=localhost
+      - OWNCLOUD_TRUSTED_DOMAINS=localhost,192.168.86.248
+      - OWNCLOUD_PROTOCOL=http
+      - OWNCLOUD_MYSQL_UTF8MB4=true
+      - TZ=Asia/Dhaka
+    volumes:
+      - /media/devmon/Seagate/OwnCloud:/mnt/data
