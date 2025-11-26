@@ -1,0 +1,220 @@
+name: big-bear-wallabag
+services:
+  big-bear-wallabag:
+    cpu_shares: 90
+    command: []
+    container_name: big-bear-wallabag
+    depends_on:
+      big-bear-wallabag-db:
+        condition: service_started
+        required: true
+      big-bear-wallabag-redis:
+        condition: service_started
+        required: true
+    deploy:
+      resources:
+        limits:
+          memory: 23520M
+    environment:
+      - MYSQL_ROOT_PASSWORD=777134a0-4480-49f3-b00c-29db42c6d136
+      - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
+      - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
+      - SYMFONY__ENV__DATABASE_HOST=big-bear-wallabag-db
+      - SYMFONY__ENV__DATABASE_NAME=wallabag
+      - SYMFONY__ENV__DATABASE_PASSWORD=fbe433e9-e3a8-432a-a382-d132596a76fc
+      - SYMFONY__ENV__DATABASE_PORT=3306
+      - SYMFONY__ENV__DATABASE_TABLE_PREFIX=big_bear_wallabag_
+      - SYMFONY__ENV__DATABASE_USER=big_bear_wallabag
+      - SYMFONY__ENV__DOMAIN_NAME=http://192.168.86.248:8484
+      - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
+      - SYMFONY__ENV__MAILER_DSN=smtp://127.0.0.1
+      - SYMFONY__ENV__SERVER_NAME=Big Bear Wallabag
+    hostname: big-bear-wallabag
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://localhost/api/info
+      timeout: 3s
+      interval: 1m0s
+    image: wallabag/wallabag:2.6.14
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wallabag.png
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8484"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/big-bear-wallabag/images
+        target: /var/www/wallabag/web/assets/images
+        bind:
+          create_host_path: true
+    x-casaos:
+      envs:
+        - container: MYSQL_ROOT_PASSWORD
+          description:
+            en_us: "Container Variable: MYSQL_ROOT_PASSWORD"
+        - container: SYMFONY__ENV__DATABASE_DRIVER
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_DRIVER"
+        - container: SYMFONY__ENV__DATABASE_HOST
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_HOST"
+        - container: SYMFONY__ENV__DATABASE_PORT
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_PORT"
+        - container: SYMFONY__ENV__DATABASE_NAME
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_NAME"
+        - container: SYMFONY__ENV__DATABASE_USER
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_USER"
+        - container: SYMFONY__ENV__DATABASE_PASSWORD
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_PASSWORD"
+        - container: SYMFONY__ENV__DATABASE_CHARSET
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_CHARSET"
+        - container: SYMFONY__ENV__DATABASE_TABLE_PREFIX
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DATABASE_TABLE_PREFIX"
+        - container: SYMFONY__ENV__MAILER_DSN
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__MAILER_DSN"
+        - container: SYMFONY__ENV__FROM_EMAIL
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__FROM_EMAIL"
+        - container: SYMFONY__ENV__DOMAIN_NAME
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__DOMAIN_NAME"
+        - container: SYMFONY__ENV__SERVER_NAME
+          description:
+            en_us: "Container Variable: SYMFONY__ENV__SERVER_NAME"
+      ports:
+        - container: "80"
+          description:
+            en_us: "Container Port: 80"
+      volumes:
+        - container: /var/www/wallabag/web/assets/images
+          description:
+            en_us: "Container Path: /var/www/wallabag/web/assets/images"
+    devices: []
+    cap_add: []
+    networks:
+      - big-bear-wallabag-network
+    privileged: false
+  big-bear-wallabag-db:
+    cpu_shares: 90
+    command: []
+    container_name: big-bear-wallabag-db
+    deploy:
+      resources:
+        limits:
+          memory: 23520M
+    environment:
+      - MYSQL_ROOT_PASSWORD=777134a0-4480-49f3-b00c-29db42c6d136
+    hostname: big-bear-wallabag-db
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - -h
+        - localhost
+      timeout: 3s
+      interval: 20s
+    image: mariadb:10.11.10
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wallabag.png
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/big-bear-wallabag/mysql
+        target: /var/lib/mysql
+        bind:
+          create_host_path: true
+    x-casaos:
+      envs:
+        - container: MYSQL_ROOT_PASSWORD
+          description:
+            en_us: "Container Variable: MYSQL_ROOT_PASSWORD"
+      volumes:
+        - container: /var/lib/mysql
+          description:
+            en_us: "Container Path: /var/lib/mysql"
+    ports: []
+    devices: []
+    cap_add: []
+    networks:
+      - big-bear-wallabag-network
+    privileged: false
+  big-bear-wallabag-redis:
+    cpu_shares: 90
+    command: []
+    container_name: big-bear-wallabag-redis
+    deploy:
+      resources:
+        limits:
+          memory: 23520M
+    hostname: big-bear-wallabag-redis
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      timeout: 3s
+      interval: 20s
+    image: redis:7.4.6-alpine@sha256:7a7c6b5c49a6896d0a58ee0c6dc0dcabe14f30f0a2f7d2d1362d276fa2d43166
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wallabag.png
+    restart: unless-stopped
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    environment: []
+    networks:
+      - big-bear-wallabag-network
+    privileged: false
+networks:
+  big-bear-wallabag-network:
+    name: big-bear-wallabag_big-bear-wallabag-network
+    driver: bridge
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  author: Wallabag Team
+  category: BigBearCasaOS
+  description:
+    en_us: Wallabag is a self-hosted application for saving web pages. Unlike other
+      services, Wallabag is free and open source.
+  developer: wallabag
+  hostname: ""
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wallabag.png
+  index: /
+  is_uncontrolled: false
+  main: big-bear-wallabag
+  port_map: "8484"
+  scheme: http
+  screenshot_link:
+    - https://cdn.jsdelivr.net/gh/bigbeartechworld/big-bear-universal-apps@main/apps/wallabag/screenshots/screenshot-1.png
+    - https://cdn.jsdelivr.net/gh/bigbeartechworld/big-bear-universal-apps@main/apps/wallabag/screenshots/screenshot-2.png
+  store_app_id: big-bear-wallabag
+  tagline:
+    en_us: Save and classify articles. Read them later. Freely.
+  thumbnail: https://cdn.jsdelivr.net/gh/bigbeartechworld/big-bear-universal-apps/apps/wallabag/thumbnail.png
+  tips:
+    before_install:
+      en_us: >
+        Before you install read this:
+        https://community.bigbeartechworld.com/t/added-wallabag-to-bigbearcasaos/3544#p-6005-documentation-4
+  title:
+    custom: ""
+    en_us: Wallabag
