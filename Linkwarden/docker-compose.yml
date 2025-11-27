@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:latest
+    container_name: linkwarden
+    ports:
+      - "3089:3000"
+    environment:
+      - DATABASE_URL=postgresql://linkwarden:linkwarden@db:5432/linkwarden
+      - NODE_ENV=production
+      - NEXTAUTH_SECRET=linkwarden_dev_secret
+    volumes:
+      - type: bind
+        source: H:\Docker\linkwarden
+        target: /app/public/uploads
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    container_name: linkwarden-db
+    environment:
+      - POSTGRES_DB=linkwarden
+      - POSTGRES_USER=linkwarden
+      - POSTGRES_PASSWORD=linkwarden
+    volumes:
+      - type: bind
+        source: H:\Docker\linkwarden\db
+        target: /var/lib/postgresql/data
+    restart: unless-stopped
