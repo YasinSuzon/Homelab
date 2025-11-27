@@ -12,7 +12,7 @@ services:
       - NEXTAUTH_SECRET=linkwarden_dev_secret
     volumes:
       - type: bind
-        source: H:\Docker\linkwarden
+        source: /h/Docker/linkwarden
         target: /app/public/uploads
     depends_on:
       - db
@@ -27,6 +27,6 @@ services:
       - POSTGRES_PASSWORD=linkwarden
     volumes:
       - type: bind
-        source: H:\Docker\linkwarden\db
+        source: /h/Docker/linkwarden/db
         target: /var/lib/postgresql/data
     restart: unless-stopped
