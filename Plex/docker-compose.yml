@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  plex:
+    image: linuxserver/plex:latest
+    container_name: plex
+    restart: unless-stopped
+    network_mode: host   # Plex needs host networking for DLNA, discovery, etc.
+    environment:
+      - PUID=1000        # Adjust to your Windows user ID if needed
+      - PGID=1000        # Adjust to your Windows group ID if needed
+      - VERSION=docker
+    volumes:
+      - H:/Docker/Plex/config:/config        # Plex configuration & metadata
+      - H:/Docker/Plex/tvshows:/data/tvshows # TV shows library
+      - H:/Docker/Plex/movies:/data/movies   # Movies library
+      - H:/Docker/Plex/music:/data/music     # Music library
