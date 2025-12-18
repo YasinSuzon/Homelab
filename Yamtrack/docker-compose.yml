@@ -1,22 +1,33 @@
-version: '3.8'
-
 services:
   yamtrack:
-    image: ghcr.io/yamtrack/yamtrack:latest
     container_name: yamtrack
-    ports:
-      - "4003:8000"
-    volumes:
-      - /DATA/AppData/yamtrack:/data
-    environment:
-      - TZ=Asia/Dhaka
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+    image: ghcr.io/fuzzygrim/yamtrack
+    restart: unless-stopped
     depends_on:
       - redis
-    restart: unless-stopped
+    environment:
+      - TZ=Asia/Dhaka
+      - SECRET=t1U2xAiz7lxjyTz689q8W+aSg3B0SbaoC30ZQx+LvJrkd7jkocA0d+0mgi0tUct8
+      - REDIS_URL=redis://yamtrack-redis:6379
+    volumes:
+      - /DATA/AppData/yamtrack:/data
+    ports:
+      - "4003:8000"
+    networks:
+      - yamtrack_net
 
   redis:
+    container_name: yamtrack-redis
     image: redis:8-alpine
-    container_name: yamtrack_redis
     restart: unless-stopped
+    volumes:
+      - /DATA/AppData/yamtrack/redis:/data
+    networks:
+      - yamtrack_net
+
+volumes:
+  redis_data:
+
+networks:
+  yamtrack_net:
+    driver: bridge
