@@ -7,8 +7,9 @@ services:
       - redis
     environment:
       - TZ=Asia/Dhaka
-      - SECRET=t1U2xAiz7lxjyTz689q8W+aSg3B0SbaoC30ZQx+LvJrkd7jkocA0d+0mgi0tUct8
+      - SECRET=t1U2xAiz7lxjyTz689q8W+aSg3B0SbaoC30ZQx+LvJrod7jkocA0d+0mgi0tUct8
       - REDIS_URL=redis://yamtrack-redis:6379
+      #- STEAM_API_KEY= Add yours
     volumes:
       - /DATA/AppData/yamtrack:/data
     ports:
