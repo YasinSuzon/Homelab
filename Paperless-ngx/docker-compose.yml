@@ -1,1 +1,46 @@
-
+name: paperless
+services:
+  broker:
+    image: docker.io/library/redis:7
+    restart: unless-stopped
+    volumes:
+      - /media/devmon/Seagate/paperless/redis:/data
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      - broker
+      - gotenberg
+      - tika
+    ports:
+      - "2303:8000"
+    volumes:
+      # Using subdirectories is CRITICAL to prevent Paperless from consuming its own database file
+      - /media/devmon/Seagate/paperless/data:/usr/src/paperless/data
+      - /media/devmon/Seagate/paperless/media:/usr/src/paperless/media
+      - /media/devmon/Seagate/paperless/export:/usr/src/paperless/export
+      - /media/devmon/Seagate/paperless/consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_TIKA_ENABLED: 1
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg:3000
+      PAPERLESS_TIKA_ENDPOINT: http://tika:9998
+      USERMAP_UID: 1000
+      USERMAP_GID: 1000
+      PAPERLESS_ALLOWED_HOSTS: "*"
+      PAPERLESS_CORS_ALLOWED_HOSTS: "http://*,https://*"
+      PAPERLESS_CSRF_TRUSTED_ORIGINS: "http://*,https://*"
+      PAPERLESS_SECRET_KEY: change-me
+      PAPERLESS_TIME_ZONE: Asia/Dhaka
+      PAPERLESS_OCR_LANGUAGE: eng
+      PAPERLESS_OCR_LANGUAGES: tur ces
+  gotenberg:
+    image: docker.io/gotenberg/gotenberg:8.25
+    restart: unless-stopped
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+  tika:
+    image: docker.io/apache/tika:latest
+    restart: unless-stopped
