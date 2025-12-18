@@ -1,25 +1,22 @@
+version: '3.8'
+
 services:
   yamtrack:
+    image: ghcr.io/yamtrack/yamtrack:latest
     container_name: yamtrack
-    image: ghcr.io/fuzzygrim/yamtrack
-    restart: unless-stopped
-    depends_on:
-      - redis
-    environment:
-      - TZ=Asia/Dhaka
-      - SECRET= #generate openssl rand -base64 48
-      - REDIS_URL=redis://redis:6379
-    volumes:
-      - ./db:/DATA/AppData/yamtrack/db
     ports:
       - "4003:8000"
+    volumes:
+      - /DATA/AppData/yamtrack:/data
+    environment:
+      - TZ=Asia/Dhaka
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    restart: unless-stopped
 
   redis:
-    container_name: yamtrack-redis
     image: redis:8-alpine
+    container_name: yamtrack_redis
     restart: unless-stopped
-    volumes:
-      - redis_data:/data
-
-volumes:
-  redis_data:
