@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  papra:
+    image: ghcr.io/papra-hq/papra:latest
+    container_name: papra
+    restart: unless-stopped
+    environment:
+      APP_BASE_URL: http://localhost:1221
+    ports:
+      - "1221:1221"
+    volumes:
+      - /media/devmon/Seagate/Papra:/app/app-data
+    user: "${UID}:${GID}"
