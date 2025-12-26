@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  copyparty:
+    image: copyparty/iv:latest  # Use the 'iv' version for FFmpeg/Vips support
+    container_name: copyparty
+    ports:
+      - "3923:3923"
+    volumes:
+      - /DATA/AppData/Copyparty:/w
+      - /DATA/AppData/Copyparty/user.conf:/cfg/copyparty.conf:ro
+    restart: unless-stopped
