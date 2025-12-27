@@ -7,6 +7,7 @@ services:
     ports:
       - "3923:3923"
     volumes:
-      - /DATA/AppData/Copyparty:/w
+      - /media/devmon/Seagate/Copyparty/Files:/w
       - /DATA/AppData/Copyparty/user.conf:/cfg/copyparty.conf:ro
+
     restart: unless-stopped
