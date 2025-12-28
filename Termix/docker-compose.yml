@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  termix:
+    image: ghcr.io/lukegus/termix:latest
+    container_name: termix
+    restart: unless-stopped
+    ports:
+      - "8200:8200"   # access via http://localhost:8200
+    environment:
+      PORT: "8200"
+    volumes:
+      - H:/Docker/termix/data:/app/data
