@@ -1,0 +1,14 @@
+services:
+  yubal:
+    image: ghcr.io/guillevc/yubal:latest
+    container_name: yubal
+    ports:
+      - 8000:8000
+    environment:
+      YUBAL_TZ: Asia/Dhaka
+      # Check the Configuration section for more variables
+    volumes:
+      - /media/devmon/Seagate/yubal/data:/app/data # Where your music will be saved
+      - /media/devmon/Seagate/yubal/beets:/app/beets # Beets configuration and database
+      - /media/devmon/Seagate/yubal/ytdlp:/app/ytdlp # yt-dlp configuration (cookies)
+    restart: unless-stopped
