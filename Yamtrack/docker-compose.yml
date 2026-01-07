@@ -11,7 +11,7 @@ services:
       - REDIS_URL=redis://yamtrack-redis:6379
       #- STEAM_API_KEY= Add yours
     volumes:
-      - /DATA/AppData/yamtrack:/data
+      - /DATA/AppData/yamtrack:/yamtrack/db
     ports:
       - "4003:8000"
     networks:
@@ -32,3 +32,4 @@ volumes:
 networks:
   yamtrack_net:
     driver: bridge
+
