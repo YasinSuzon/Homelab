@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  syncthing:
+    container_name: big-bear-syncthing
+    image: syncthing/syncthing:latest
+    restart: unless-stopped
+    ports:
+      - "8384:8384"     # Web UI
+      - "22000:22000"   # Sync TCP
+      - "22000:22000/udp" # Sync UDP
+      - "21027:21027/udp" # Local discovery
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /media/devmon/Seagate/Pixel9/DCIM/Camera:/var/Camera
+      - /media/devmon/Seagate/Pixel9/Screenshots:/var/Screenshots
+      - /DATA/AppData/big-bear-syncthing/config:/var/syncthing/config
+    networks:
+      - syncthing_net
+
+networks:
+  syncthing_net:
+    driver: bridge
