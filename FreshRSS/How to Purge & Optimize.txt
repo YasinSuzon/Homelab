@@ -1,5 +1,5 @@
 #CLI command to manually purge & optimize database. Make an SSH automation with this on n8n
-
+#Change your username first
 
 docker exec --user www-data freshrss php -r "
 set_time_limit(0);
