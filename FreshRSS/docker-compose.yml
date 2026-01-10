@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  freshrss:
+    image: freshrss/freshrss:1.26.0
+    container_name: freshrss
+    ports:
+      - "8749:80"
+    environment:
+      - CRON_MIN=1,31
+      - TZ=Asia/Dhaka
+    volumes:
+      - /DATA/AppData/freshrss/data:/var/www/FreshRSS/data
+      - /DATA/AppData/freshrss/extensions:/var/www/FreshRSS/extensions
+    networks:
+      - freshrss_bridge
+    restart: unless-stopped
+
+networks:
+  freshrss_bridge:
+    driver: bridge
