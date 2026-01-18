@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  watchyourlan:
+    image: aceberg/watchyourlan:latest
+    container_name: watchyourlan
+    restart: unless-stopped
+    network_mode: host   # important: gives full LAN visibility
+    volumes:
+      - /DATA/AppData/watchyourlan:/data
+    environment:
+      - TZ=Asia/Dhaka
+      - IFACE=ens18       # your LAN interface inside Ubuntu VM
+      - PORT=8840         # internal web UI port
