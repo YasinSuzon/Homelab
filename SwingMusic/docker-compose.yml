@@ -1,0 +1,10 @@
+services:
+  swingmusic:
+    image: ghcr.io/swingmx/swingmusic:latest
+    container_name: swingmusic
+    volumes:
+      - /media/devmon/Seagate/Music:/music
+      - /DATA/AppData/swingmusic:/config
+    ports:
+      - "1970:1970"
+    restart: unless-stopped
