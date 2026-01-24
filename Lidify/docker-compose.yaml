@@ -6,10 +6,12 @@ services:
       - "3030:3030"
     volumes:
       - /media/devmon/Seagate/Music:/music
-      - /DATA/AppData/Lidify/postgres:/data
+      - /DATA/AppData/Lidify/postgres:/data/postgres
+      - /DATA/AppData/Lidify/Download:/downloads
     environment:
       - TZ=Asia/Dhaka
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
     restart: unless-stopped
+
