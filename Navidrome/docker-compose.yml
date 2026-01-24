@@ -1,0 +1,10 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    ports:
+      - "4533:4533"
+    volumes:
+      - /DATA/Music:/music
+      - /DATA/AppData/Navidrome:/data
+    environment:
+      - ND_SCANINTERVAL=1h   # auto refresh every hour
