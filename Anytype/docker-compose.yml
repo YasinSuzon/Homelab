@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  any-sync-bundle:
+    image: ghcr.io/grishy/any-sync-bundle:1.2.1-2025-12-10
+    container_name: any-sync-bundle
+    environment:
+      - ANY_SYNC_BUNDLE_INIT_EXTERNAL_ADDRS=192.168.100.9 #change it to ur machine IP
+    ports:
+      - "33010:33010"
+      - "33020:33020/udp"
+    volumes:
+      - /DATA/AppData/Anytype:/data
+    restart: unless-stopped
+
+    #After the first run, import /DATA/AppData/Anytype/client-config.yml into Anytype apps.
