@@ -8,8 +8,9 @@ services:
       - 8000:8000
     environment:
       YUBAL_SCHEDULER_CRON: "0 0 * * *"
-      YUBAL_TZ: UTC
+      YUBAL_TZ: Asia/Dhaka
     volumes:
       - /media/devmon/Seagate/yubal/data:/app/data
       - /media/devmon/Seagate/yubal/config:/app/config
     restart: unless-stopped
+
