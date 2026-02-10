@@ -1,15 +1,15 @@
+# compose.yaml
 services:
   yubal:
     image: ghcr.io/guillevc/yubal:latest
     container_name: yubal
+    user: 1000:1000
     ports:
-      - 8046:8000
+      - 8000:8000
     environment:
-      YUBAL_TZ: Asia/Dhaka
-      # Check the Configuration section for more variables
+      YUBAL_SCHEDULER_CRON: "0 0 * * *"
+      YUBAL_TZ: UTC
     volumes:
-      - /media/devmon/Seagate/yubal/data:/app/data # Where your music will be saved
-      - /media/devmon/Seagate/yubal/beets:/app/beets # Beets configuration and database
-      - /media/devmon/Seagate/yubal/ytdlp:/app/ytdlp # yt-dlp configuration (cookies)
-
+      - /media/devmon/Seagate/yubal/data:/app/data
+      - /media/devmon/Seagate/yubal/config:/app/config
     restart: unless-stopped
