@@ -1,0 +1,8 @@
+services:
+  theonefile_verse:
+    image: ghcr.io/gelatinescreams/theonefile_verse:latest
+    ports:
+      - "10101:10101"
+    volumes:
+      - /DATA/AppData/theonefile:/app/data
+    restart: unless-stopped
