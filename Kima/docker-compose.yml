@@ -1,0 +1,13 @@
+services:
+  lidify:
+    image: chevron7locked/kima:v1.5.0
+    container_name: Kima
+    ports:
+      - "3030:3030"
+    volumes:
+      - /media/devmon/Seagate/Music:/music
+      - /DATA/AppData/Kima/postgres:/data/postgres
+      - /DATA/AppData/Kima/Download:/downloads
+    environment:
+      - TZ=Asia/Dhaka
+    restart: unless-stopped
