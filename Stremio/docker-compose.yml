@@ -1,0 +1,9 @@
+services:
+  stremio-service:
+    image: stremio/server:latest
+    container_name: stremio
+    ports:
+      - "4040:11470"
+    volumes:
+      - /DATA/AppData/Stremio:/root/.stremio-server
+    restart: unless-stopped
