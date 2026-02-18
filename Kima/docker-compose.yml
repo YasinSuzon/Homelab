@@ -1,5 +1,5 @@
 services:
-  lidify:
+  Kima:
     image: chevron7locked/kima:v1.5.0
     container_name: Kima
     ports:
