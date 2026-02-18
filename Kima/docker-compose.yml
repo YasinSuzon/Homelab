@@ -6,8 +6,7 @@ services:
       - "3030:3030"
     volumes:
       - /media/devmon/Seagate/Music:/music
-      - /DATA/AppData/Kima/postgres:/data/postgres
-      - /DATA/AppData/Kima/Download:/downloads
+      - /DATA/AppData/Kima/data:/data
     environment:
       - TZ=Asia/Dhaka
     restart: unless-stopped
