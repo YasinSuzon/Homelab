@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   firefox:
-    image: jlesage/firefox
-    container_name: firefox
+    image: jlesage/firefox:latest
+    container_name: Firefox
     ports:
       - "5800:5800"   # Map container's web UI port to host port 3008
     volumes:
