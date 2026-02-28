@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  firefox:
+    image: jlesage/firefox
+    container_name: firefox
+    ports:
+      - "5800:5800"   # Map container's web UI port to host port 3008
+    volumes:
+      - /DATA/AppData/firefox:/config:rw   # Persistent data storage
+      - /etc/localtime:/etc/localtime:ro   # Sync host time
+    restart: unless-stopped
