@@ -1,0 +1,22 @@
+services:
+  web:
+    image: eitchtee/wygiwyh:latest
+    container_name: ${SERVER_NAME}
+    ports:
+      - "${OUTBOUND_PORT:-8000}:${INTERNAL_PORT:-8000}"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-bookworm
+    container_name: ${DB_NAME}
+    restart: unless-stopped
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_DATABASE}
