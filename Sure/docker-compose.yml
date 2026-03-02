@@ -1,0 +1,182 @@
+name: sure
+services:
+    db:
+        cpu_shares: 90
+        command: []
+        deploy:
+            resources:
+                limits:
+                    memory: "24661458944"
+        environment:
+            POSTGRES_DB: sure_production
+            POSTGRES_PASSWORD: sure_password
+            POSTGRES_USER: sure_user
+        healthcheck:
+            test:
+                - CMD-SHELL
+                - 'pg_isready -U  -d '
+            timeout: 5s
+            interval: 5s
+            retries: 5
+        image: postgres:16
+        labels:
+            icon: http://192.168.86.248:2078/assets/logomark-color-92ed1e7e.svg
+        networks:
+            sure_net: null
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/sure/postgres-data
+              target: /var/lib/postgresql/data
+              bind:
+                create_host_path: true
+    redis:
+        cpu_shares: 90
+        command: []
+        deploy:
+            resources:
+                limits:
+                    memory: "24661458944"
+        healthcheck:
+            test:
+                - CMD
+                - redis-cli
+                - ping
+            timeout: 5s
+            interval: 5s
+            retries: 5
+        image: redis:latest
+        labels:
+            icon: http://192.168.86.248:2078/assets/logomark-color-92ed1e7e.svg
+        networks:
+            sure_net: null
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/sure/redis-data
+              target: /data
+              bind:
+                create_host_path: true
+    web:
+        cpu_shares: 90
+        command: []
+        depends_on:
+            db:
+                condition: service_healthy
+                required: true
+            redis:
+                condition: service_healthy
+                required: true
+        deploy:
+            resources:
+                limits:
+                    memory: "24661458944"
+        dns:
+            - 8.8.8.8
+            - 1.1.1.1
+        environment:
+            DB_HOST: db
+            DB_PORT: "5432"
+            OPENAI_ACCESS_TOKEN: dummy_openai_token
+            POSTGRES_DB: sure_production
+            POSTGRES_PASSWORD: sure_password
+            POSTGRES_USER: sure_user
+            RAILS_ASSUME_SSL: "false"
+            RAILS_FORCE_SSL: "false"
+            REDIS_URL: redis://redis:6379/1
+            SECRET_KEY_BASE: a7523c3d0ae56415046ad8abae168d71074a79534a7062258f8d1d51ac2f76d3c3bc86d86b6b0b307df30d9a6a90a2066a3fa9e67c5e6f374dbd7dd4e0778e13
+            SELF_HOSTED: "true"
+        image: ghcr.io/we-promise/sure:stable
+        labels:
+            icon: http://192.168.86.248:2078/assets/logomark-color-92ed1e7e.svg
+        networks:
+            sure_net: null
+        ports:
+            - mode: ingress
+              target: 3000
+              published: "2078"
+              protocol: tcp
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/sure/app-storage
+              target: /rails/storage
+              bind:
+                create_host_path: true
+    worker:
+        cpu_shares: 90
+        command:
+            - bundle
+            - exec
+            - sidekiq
+        depends_on:
+            db:
+                condition: service_healthy
+                required: true
+            redis:
+                condition: service_healthy
+                required: true
+        deploy:
+            resources:
+                limits:
+                    memory: "24661458944"
+        dns:
+            - 8.8.8.8
+            - 1.1.1.1
+        environment:
+            DB_HOST: db
+            DB_PORT: "5432"
+            OPENAI_ACCESS_TOKEN: dummy_openai_token
+            POSTGRES_DB: sure_production
+            POSTGRES_PASSWORD: sure_password
+            POSTGRES_USER: sure_user
+            RAILS_ASSUME_SSL: "false"
+            RAILS_FORCE_SSL: "false"
+            REDIS_URL: redis://redis:6379/1
+            SECRET_KEY_BASE: a7523c3d0ae56415046ad8abae168d71074a79534a7062258f8d1d51ac2f76d3c3bc86d86b6b0b307df30d9a6a90a2066a3fa9e67c5e6f374dbd7dd4e0778e13
+            SELF_HOSTED: "true"
+        image: ghcr.io/we-promise/sure:stable
+        labels:
+            icon: http://192.168.86.248:2078/assets/logomark-color-92ed1e7e.svg
+        networks:
+            sure_net: null
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: /DATA/AppData/sure/app-storage
+              target: /rails/storage
+              bind:
+                create_host_path: true
+networks:
+    default:
+        name: sure_default
+    sure_net:
+        name: sure_sure_net
+        driver: bridge
+x-casaos:
+    author: self
+    category: self
+    hostname: ""
+    icon: http://192.168.86.248:2078/assets/logomark-color-92ed1e7e.svg
+    index: /
+    is_uncontrolled: true
+    port_map: "2078"
+    scheme: http
+    title:
+        custom: Sure
+x-db-env:
+    POSTGRES_DB: sure_production
+    POSTGRES_PASSWORD: sure_password
+    POSTGRES_USER: sure_user
+x-rails-env:
+    DB_HOST: db
+    DB_PORT: 5432
+    OPENAI_ACCESS_TOKEN: dummy_openai_token
+    POSTGRES_DB: sure_production
+    POSTGRES_PASSWORD: sure_password
+    POSTGRES_USER: sure_user
+    RAILS_ASSUME_SSL: "false"
+    RAILS_FORCE_SSL: "false"
+    REDIS_URL: redis://redis:6379/1
+    SECRET_KEY_BASE: a7523c3d0ae56415046ad8abae168d71074a79534a7062258f8d1d51ac2f76d3c3bc86d86b6b0b307df30d9a6a90a2066a3fa9e67c5e6f374dbd7dd4e0778e13
+    SELF_HOSTED: "true"
