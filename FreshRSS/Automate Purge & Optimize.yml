@@ -4,7 +4,7 @@
 docker exec --user www-data freshrss php -r "
 set_time_limit(0);
 require '/var/www/FreshRSS/cli/_cli.php';
-\$user = 'yasinhasan';
+\$user = 'yasinhasan'; #YOUR_USERNAME
 cliInitUser(\$user);
 
 echo '--- 1. Purging Old Articles ---' . PHP_EOL;
