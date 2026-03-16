@@ -10,5 +10,6 @@ services:
       - 27960:27960
     volumes:
       - /proc:/proc:ro
+      - /data:/app/data
     image: c0m4r/kula:latest
 networks: {}
