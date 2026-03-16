@@ -1,0 +1,15 @@
+name: <your server name>
+services:
+  kula:
+    container_name: kula
+    pid: host
+    network_mode: host
+    volumes:
+      - /proc:/proc:ro
+      - kula_data:/app/data
+    image: c0m4r/kula:latest
+volumes:
+  kula_data:
+    external: true
+    name: kula_data
+networks: {}
