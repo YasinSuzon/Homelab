@@ -1,0 +1,37 @@
+services:
+  reactive-resume:
+    image: amruthpillai/reactive-resume:latest
+    container_name: reactive-resume
+    ports:
+      - 3000:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - TZ=Asia/Dhaka
+      - APP_URL=http://umbrel.local:3000
+      - STORAGE_URL=http://umbrel.local:3000/api/storage
+      - DATABASE_URL=postgresql://postgres:your_secure_password_here@postgres:5432/postgres
+      - AUTH_SECRET=your_auth_secret_here
+      - ENCRYPTION_SECRET=your_openssl_generated_32_character_hex_here
+    volumes:
+      - ./data:/app/apps/server/uploads
+    restart: unless-stopped
+  postgres:
+    image: postgres:16-alpine
+    container_name: reactive-resume-db
+    environment:
+      - POSTGRES_PASSWORD=your_secure_password_here
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+networks: {}
