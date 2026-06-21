@@ -1,0 +1,6 @@
+services:
+  app:
+    image: ghcr.io/krelltunez/lastglance:latest
+    ports:
+      - "3032:80"
+    restart: unless-stopped
