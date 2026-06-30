@@ -1,0 +1,20 @@
+services:
+  app:
+    image: ghcr.io/usetrmnl/larapaper:latest
+    container_name: trmnl-larapaper
+    ports:
+      - 4566:8080
+    environment:
+      - APP_TIMEZONE=Asia/Dhaka
+      - PHP_OPCACHE_ENABLE=1
+      - TRMNL_PROXY_REFRESH_MINUTES=15
+      - DB_DATABASE=database/storage/database.sqlite
+      - APP_URL=http://umbrel.local:4566
+      - APP_KEY=base64:7vFwT7U7S6Z+nWhXg7MkJWqQWv6R+Yv3X2K+z9Zz1Bc=
+    volumes:
+      - trmnl_database:/var/www/html/database/storage
+      - trmnl_storage:/var/www/html/storage/app/public/images/generated
+    restart: unless-stopped
+volumes:
+  trmnl_database: null
+  trmnl_storage: null
