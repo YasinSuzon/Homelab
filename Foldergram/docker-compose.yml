@@ -1,0 +1,17 @@
+services:
+  foldergram:
+    image: ghcr.io/foldergram/foldergram:latest
+    container_name: foldergram
+    ports:
+      - "2356:4141"
+    environment:
+      IMAGE_DETAIL_SOURCE: preview
+      DERIVATIVE_MODE: eager
+    volumes:
+      # Media source directory mapped to gallery
+      - /media/devmon/Seagate/Pixel9:/app/data/gallery:ro
+      # App data storage (database, thumbnails, previews)
+      - /DATA/AppData/Foldergram/db:/app/data/db
+      - /DATA/AppData/Foldergram/thumbnails:/app/data/thumbnails
+      - /DATA/AppData/Foldergram/previews:/app/data/previews
+    restart: unless-stopped
