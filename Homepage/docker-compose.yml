@@ -10,3 +10,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=192.168.86.248:3241
+      - PUID=1000
+      - PGID=1000
