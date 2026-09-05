@@ -1,5 +1,6 @@
 My Current dashboard & most for the apps I'm using right now.
 
+![Description of your Homepage Dashboard](Homepage/Dashboard.png)
 ![Description of your Glance Dashboard](Glance/Glance-Dashboard.png)
 
 
