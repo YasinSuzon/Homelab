@@ -1,0 +1,12 @@
+services:
+  nodecast-tv:
+    build: https://github.com/technomancer702/nodecast-tv.git#main
+    container_name: nodecast-tv
+    ports:
+      - "3033:3033" # Host:Container
+    volumes:
+      - /DATA/AppData/nodecast-tv:/app/data
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3033 # Optional: Internal container port
